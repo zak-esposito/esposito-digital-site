@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Esposito Digital — websites and AI automation for local businesses in South Wales. Built in Llanelli by Zak Esposito.">
+  <meta name="theme-color" content="#0A0E0C">
+  <title>Esposito Digital — Websites and AI automation for local businesses in South Wales</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-deep':     '#0A0E0C',
+            'brand-elevated': '#0F1311',
+            'brand-cream':    '#FAFAF7',
+            'brand-accent':   '#10B981',
+            'brand-mint':     '#A7F3D0',
+            'brand-ivory':    '#F5F2EB',
+          },
+          fontFamily: {
+            display: ['Outfit', 'system-ui', 'sans-serif'],
+            sans:    ['DM Sans', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-deep:       #0A0E0C;
+      --bg-elevated:   #0F1311;
+      --bg-cream:      #FAFAF7;
+      --accent:        #10B981;
+      --accent-glow:   rgba(16,185,129,0.15);
+      --accent-muted:  #A7F3D0;
+      --ivory:         #F5F2EB;
+      --ivory-muted:   rgba(245,242,235,0.70);
+      --ivory-faint:   rgba(245,242,235,0.45);
+      --dark-muted:    rgba(10,14,12,0.65);
+      --dark-faint:    rgba(10,14,12,0.40);
+      --hairline-dark: rgba(16,185,129,0.18);
+      --hairline-light:rgba(10,14,12,0.10);
+
+      --shadow-card:     0 1px 2px rgba(16,185,129,.04), 0 8px 24px rgba(16,185,129,.06), 0 24px 48px rgba(10,14,12,.12);
+      --shadow-elevated: 0 2px 4px rgba(16,185,129,.06), 0 12px 32px rgba(16,185,129,.10), 0 32px 64px rgba(10,14,12,.18);
+      --shadow-glow:     0 0 0 1px rgba(16,185,129,.20), 0 12px 32px rgba(16,185,129,.30);
+
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-soft:   cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg-deep);
+      color: var(--ivory);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .font-display { font-family: 'Outfit', system-ui, sans-serif; }
+
+    .h-display {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 0.98;
+      font-size: clamp(2.5rem, 6.2vw, 5.5rem);
+    }
+
+    .h-section {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      font-size: clamp(2rem, 4.4vw, 3.5rem);
+    }
+
+    .body-lg { font-size: clamp(1.0625rem, 1.4vw, 1.25rem); line-height: 1.7; }
+    .body-md { font-size: 1.0625rem; line-height: 1.75; }
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    /* Grain overlay for dark sections */
+    .grain {
+      position: relative;
+      isolation: isolate;
+    }
+    .grain::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch' seed='4'/><feColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.95  0 0 0 0 0.92  0 0 0 0.45 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: 0.06;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .grain > * { position: relative; z-index: 1; }
+
+    /* Hero radial gradient atmosphere */
+    .hero-atmos {
+      background:
+        radial-gradient(ellipse 80% 60% at 85% 15%, rgba(16,185,129,0.10), transparent 60%),
+        radial-gradient(ellipse 70% 50% at 10% 90%, rgba(52,211,153,0.06), transparent 65%),
+        var(--bg-deep);
+    }
+
+    /* Pricing radial accent on cream */
+    .pricing-atmos {
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 35%, rgba(16,185,129,0.08), transparent 70%),
+        var(--bg-cream);
+    }
+
+    .contact-atmos {
+      background:
+        radial-gradient(ellipse 50% 50% at 75% 50%, rgba(16,185,129,0.07), transparent 70%),
+        var(--bg-cream);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.95rem 1.5rem;
+      background: var(--accent);
+      color: var(--ivory);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.9375rem;
+      border-radius: 0.625rem;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 8px 24px rgba(16,185,129,0.20);
+      transition: transform 200ms var(--ease-spring), box-shadow 200ms var(--ease-soft);
+      will-change: transform;
+    }
+    .btn-primary:hover { transform: translateY(-1px) scale(1.02); box-shadow: var(--shadow-glow); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:focus-visible { outline: 2px solid var(--accent-muted); outline-offset: 3px; }
+    .btn-primary .arrow { transition: transform 240ms var(--ease-spring); }
+    .btn-primary:hover .arrow { transform: translateX(4px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      background: transparent;
+      color: var(--bg-deep);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.9375rem;
+      border: 1.5px solid var(--accent);
+      border-radius: 0.625rem;
+      transition: transform 200ms var(--ease-spring), background-color 200ms var(--ease-soft), color 200ms var(--ease-soft);
+    }
+    .btn-outline:hover { transform: translateY(-1px); background: var(--accent); color: var(--ivory); }
+    .btn-outline:active { transform: scale(0.98); }
+    .btn-outline:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    /* Pulsing dot */
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    .pulse-dot { animation: pulse-dot 2.4s var(--ease-soft) infinite; }
+
+    /* Staggered hero entrance */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      animation: fade-up 0.9s var(--ease-spring) forwards;
+    }
+    .reveal-1 { animation-delay: 80ms; }
+    .reveal-2 { animation-delay: 180ms; }
+    .reveal-3 { animation-delay: 300ms; }
+    .reveal-4 { animation-delay: 420ms; }
+
+    /* In-view reveal removed for v1 — content is always visible.
+       Hero staggered entrance + hover micro-interactions carry the motion. */
+
+    /* Service cards */
+    .service-card {
+      position: relative;
+      padding: 2rem 1.75rem 2.25rem;
+      transition: transform 320ms var(--ease-spring);
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 1.5rem;
+      left: 0;
+      width: 2px;
+      height: 2rem;
+      background: var(--accent);
+      transition: height 320ms var(--ease-spring), box-shadow 320ms var(--ease-soft);
+    }
+    .service-card:hover { transform: translateY(-4px); }
+    .service-card:hover::before { height: 3rem; box-shadow: 0 0 12px var(--accent); }
+    .service-card:hover .service-icon { filter: drop-shadow(0 0 8px var(--accent-glow)); transform: translateY(-2px); }
+    .service-icon { color: var(--accent); transition: transform 320ms var(--ease-spring), filter 320ms var(--ease-soft); }
+
+    @media (min-width: 1024px) {
+      .service-card-mid { transform: translateY(24px); }
+      .service-card-mid:hover { transform: translateY(20px); }
+    }
+
+    /* Pricing cards */
+    .pricing-card {
+      position: relative;
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem 1.75rem;
+      box-shadow: var(--shadow-card);
+      transition: transform 320ms var(--ease-spring), box-shadow 320ms var(--ease-soft);
+      display: flex;
+      flex-direction: column;
+    }
+    .pricing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-elevated); }
+    .pricing-card:hover .check { transform: translateX(2px); }
+
+    .pricing-card-featured {
+      box-shadow: var(--shadow-elevated);
+      border-top: 2px solid var(--accent);
+    }
+    @media (min-width: 1024px) {
+      .pricing-card-featured { transform: scale(1.035); }
+      .pricing-card-featured:hover { transform: scale(1.035) translateY(-6px); }
+    }
+
+    .check { color: var(--accent); flex-shrink: 0; transition: transform 280ms var(--ease-spring); }
+
+    .badge-popular {
+      position: absolute;
+      top: -0.75rem;
+      right: 1.25rem;
+      background: var(--accent);
+      color: var(--ivory);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.375rem 0.75rem;
+      border-radius: 999px;
+      transform: rotate(-3deg);
+      box-shadow: 0 6px 16px rgba(16,185,129,0.30);
+    }
+
+    /* Contact form: underline-only inputs */
+    .field { position: relative; display: flex; flex-direction: column; gap: 0.5rem; }
+    .field label {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dark-muted);
+      transition: color 200ms var(--ease-soft);
+    }
+    .field input, .field textarea {
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(10,14,12,0.20);
+      padding: 0.625rem 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      color: var(--bg-deep);
+      width: 100%;
+      transition: border-color 200ms var(--ease-soft);
+      outline: none;
+      resize: vertical;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: rgba(10,14,12,0.35); }
+    .field input:focus, .field textarea:focus { border-bottom: 2px solid var(--accent); padding-bottom: calc(0.625rem - 1px); }
+    .field:focus-within label { color: var(--accent); }
+
+    .honey { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+    /* About oversized decorative wordmark */
+    .ed-decoration {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: clamp(8rem, 22vw, 18rem);
+      line-height: 0.85;
+      color: var(--ivory);
+      opacity: 0.06;
+      letter-spacing: -0.06em;
+      pointer-events: none;
+      user-select: none;
+    }
+    .ed-sticky {
+      position: sticky;
+      top: 18vh;
+    }
+
+    /* Hairline */
+    .hairline-dark { border-top: 1px solid var(--hairline-dark); }
+    .hairline-light { border-top: 1px solid var(--hairline-light); }
+
+    /* Nav */
+    .nav {
+      transition: background-color 280ms var(--ease-soft), backdrop-filter 280ms var(--ease-soft), border-color 280ms var(--ease-soft);
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled {
+      background: rgba(10,14,12,0.78);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-bottom-color: var(--hairline-dark);
+    }
+
+    .nav-link {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      color: var(--ivory-muted);
+      transition: color 200ms var(--ease-soft);
+      position: relative;
+    }
+    .nav-link:hover, .nav-link:focus-visible { color: var(--ivory); outline: none; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      height: 1px;
+      width: 0;
+      background: var(--accent);
+      transition: width 240ms var(--ease-spring);
+    }
+    .nav-link:hover::after, .nav-link:focus-visible::after { width: 100%; }
+
+    /* Mobile menu overlay */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-deep);
+      z-index: 60;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 3rem 2rem;
+      gap: 1.25rem;
+    }
+    .menu-overlay.open { display: flex; }
+    .menu-overlay a {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 2rem;
+      color: var(--ivory);
+      letter-spacing: -0.02em;
+    }
+
+    /* Misc accessibility */
+    a, button { transition: color 200ms var(--ease-soft); }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .in-view-target, .pulse-dot { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- NAV -->
+  <nav class="nav fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-2.5 group" aria-label="Esposito Digital home">
+        <span class="w-2.5 h-2.5 bg-brand-accent rounded-[3px] transition-transform duration-300 group-hover:rotate-45"></span>
+        <span class="font-display font-semibold text-[0.975rem] tracking-tight text-brand-ivory">Esposito Digital</span>
+      </a>
+      <div class="hidden md:flex items-center gap-9">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#pricing"  class="nav-link">Pricing</a>
+        <a href="#about"    class="nav-link">About</a>
+        <a href="#contact"  class="nav-link">Contact</a>
+      </div>
+      <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Open menu" aria-expanded="false">
+        <span class="block w-5 h-px bg-brand-ivory"></span>
+        <span class="block w-5 h-px bg-brand-ivory"></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="menu-overlay" class="menu-overlay">
+    <button id="menu-close" class="absolute top-5 right-6 text-brand-ivory text-3xl font-light" aria-label="Close menu">×</button>
+    <a href="#services" data-close>Services</a>
+    <a href="#pricing"  data-close>Pricing</a>
+    <a href="#about"    data-close>About</a>
+    <a href="#contact"  data-close>Contact</a>
+    <div class="mt-4 eyebrow text-brand-mint">zak@espositodigital.co.uk</div>
+  </div>
+
+  <!-- HERO -->
+  <section id="top" class="grain hero-atmos relative min-h-screen flex items-end pb-24 pt-32 px-6 lg:px-12 overflow-hidden">
+    <div class="max-w-7xl mx-auto w-full">
+      <div class="reveal reveal-1 inline-flex items-center gap-2.5 eyebrow text-brand-mint mb-8">
+        <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-brand-accent"></span>
+        Llanelli &nbsp;·&nbsp; South Wales
+      </div>
+      <h1 class="reveal reveal-2 h-display max-w-5xl text-brand-ivory">
+        Websites and AI&nbsp;automation built for local&nbsp;businesses.
+      </h1>
+      <p class="reveal reveal-3 body-lg mt-8 max-w-2xl" style="color: var(--ivory-muted);">
+        I help local businesses in South Wales win more customers with sharp websites and AI workflows that handle the busywork. Built by hand, deployed in weeks.
+      </p>
+      <div class="reveal reveal-4 mt-10 flex flex-col sm:flex-row sm:items-center gap-5">
+        <a href="#contact" class="btn-primary">
+          Book a free call
+          <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+        <span class="text-sm" style="color: var(--ivory-faint);">30 minutes, no pitch. Just a look at where you'd benefit.</span>
+      </div>
+    </div>
+    <div class="hidden lg:flex absolute bottom-10 right-12 items-center gap-3 eyebrow" style="color: var(--ivory-faint);">
+      <span class="block w-8 h-px bg-current"></span>
+      01 / Hello, South Wales
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="grain relative py-24 lg:py-32 px-6 lg:px-12 hairline-dark" style="background: var(--bg-elevated);">
+    <div class="max-w-7xl mx-auto">
+      <div class="in-view-target max-w-3xl">
+        <div class="eyebrow text-brand-mint mb-5">001 / What I do</div>
+        <h2 class="h-section text-brand-ivory">Three ways I help local businesses grow.</h2>
+        <p class="body-lg mt-6 max-w-xl" style="color: var(--ivory-muted);">
+          Sharp, focused work. No bloat, no jargon, no agency overhead.
+        </p>
+      </div>
+
+      <div class="in-view-target mt-20 grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-12">
+        <!-- Card 1: Web Development -->
+        <div class="service-card">
+          <svg class="service-icon mb-6" width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="6" width="26" height="20" rx="2"/>
+            <path d="M3 12h26"/>
+            <circle cx="6.5" cy="9" r="0.6" fill="currentColor"/>
+            <circle cx="9"   cy="9" r="0.6" fill="currentColor"/>
+            <path d="M8 18h12M8 22h8"/>
+          </svg>
+          <h3 class="font-display font-medium text-2xl tracking-tight text-brand-ivory">Web Development</h3>
+          <p class="mt-2 text-brand-accent text-sm font-medium tracking-tight">Sites that actually convert</p>
+          <p class="body-md mt-5" style="color: var(--ivory-muted);">
+            Fast, mobile-first websites built from scratch. No bloated WordPress themes, no drag-and-drop builders that break in six months. Hand-built, deployed, and yours to keep.
+          </p>
+        </div>
+
+        <!-- Card 2: AI Automation (middle, offset on desktop) -->
+        <div class="service-card service-card-mid">
+          <svg class="service-icon mb-6" width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="6"  cy="10" r="2.5"/>
+            <circle cx="26" cy="10" r="2.5"/>
+            <circle cx="16" cy="23" r="2.5"/>
+            <path d="M8.5 10h15M7.5 12 14 20.5M24.5 12 18 20.5"/>
+          </svg>
+          <h3 class="font-display font-medium text-2xl tracking-tight text-brand-ivory">AI Automation</h3>
+          <p class="mt-2 text-brand-accent text-sm font-medium tracking-tight">Stop doing the same job twice</p>
+          <p class="body-md mt-5" style="color: var(--ivory-muted);">
+            Custom AI workflows that handle quotes, lead capture, customer questions, and admin. Built around your business, not a one-size-fits-all chatbot.
+          </p>
+        </div>
+
+        <!-- Card 3: Monthly Maintenance -->
+        <div class="service-card">
+          <svg class="service-icon mb-6" width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M27 16a11 11 0 1 1-3.2-7.8"/>
+            <path d="M28 4v6h-6"/>
+          </svg>
+          <h3 class="font-display font-medium text-2xl tracking-tight text-brand-ivory">Monthly Maintenance</h3>
+          <p class="mt-2 text-brand-accent text-sm font-medium tracking-tight">Keep it sharp</p>
+          <p class="body-md mt-5" style="color: var(--ivory-muted);">
+            Ongoing updates, content tweaks, performance checks, and security patches. You focus on the business, I keep the site running.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="pricing-atmos relative py-24 lg:py-32 px-6 lg:px-12">
+    <div class="max-w-7xl mx-auto">
+      <div class="in-view-target max-w-3xl">
+        <div class="eyebrow mb-5" style="color: var(--accent);">002 / Pricing</div>
+        <h2 class="h-section" style="color: var(--bg-deep);">Honest pricing, no surprises.</h2>
+        <p class="body-lg mt-6 max-w-xl" style="color: var(--dark-muted);">
+          One quote, no hourly billing, no scope creep. You pay what we agree.
+        </p>
+      </div>
+
+      <div class="in-view-target mt-16 grid grid-cols-1 lg:grid-cols-3 gap-7 lg:gap-8 items-start">
+        <!-- Tier 1: Starter -->
+        <div class="pricing-card">
+          <div class="eyebrow" style="color: var(--dark-muted);">Starter Website</div>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="font-display font-medium text-2xl" style="color: var(--dark-muted);">£</span>
+            <span class="font-display font-bold text-5xl tracking-tight" style="color: var(--bg-deep);">1,500</span>
+          </div>
+          <p class="mt-3" style="color: var(--dark-muted);">For local businesses that need a sharp presence online.</p>
+          <div class="my-6 hairline-light"></div>
+          <ul class="space-y-3 mb-8" style="color: var(--bg-deep);">
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Up to 5 pages</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Mobile-first responsive design</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Contact form integration</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>SEO basics</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Deployed to your domain</li>
+          </ul>
+          <a href="#contact" class="btn-outline mt-auto">Book a free call</a>
+        </div>
+
+        <!-- Tier 2: Business (featured) -->
+        <div class="pricing-card pricing-card-featured">
+          <span class="badge-popular">Most popular</span>
+          <div class="eyebrow" style="color: var(--accent);">Business Website</div>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="font-display font-medium text-2xl" style="color: var(--dark-muted);">£</span>
+            <span class="font-display font-bold text-5xl tracking-tight" style="color: var(--bg-deep);">2,500</span>
+          </div>
+          <p class="mt-3" style="color: var(--dark-muted);">For established businesses ready to compete properly online.</p>
+          <div class="my-6 hairline-light"></div>
+          <ul class="space-y-3 mb-8" style="color: var(--bg-deep);">
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Everything in Starter</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Custom sections built for your business</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Full SEO setup</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Google Business integration</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Analytics dashboard</li>
+          </ul>
+          <a href="#contact" class="btn-primary mt-auto justify-center w-full">Book a free call
+            <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+
+        <!-- Tier 3: AI-Enhanced -->
+        <div class="pricing-card">
+          <div class="eyebrow" style="color: var(--dark-muted);">AI-Enhanced</div>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="font-display font-medium text-sm uppercase tracking-widest mr-1" style="color: var(--dark-muted);">From</span>
+            <span class="font-display font-medium text-2xl" style="color: var(--dark-muted);">£</span>
+            <span class="font-display font-bold text-5xl tracking-tight" style="color: var(--bg-deep);">3,500</span>
+          </div>
+          <p class="mt-3" style="color: var(--dark-muted);">For businesses ready to stop drowning in admin.</p>
+          <div class="my-6 hairline-light"></div>
+          <ul class="space-y-3 mb-8" style="color: var(--bg-deep);">
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Everything in Business</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>AI chatbot trained on your business</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Automated lead capture</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Custom workflow automation</li>
+            <li class="flex items-start gap-3"><svg class="check mt-1.5" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 5"/></svg>Integration with your tools</li>
+          </ul>
+          <a href="#contact" class="btn-outline mt-auto">Book a free call</a>
+        </div>
+      </div>
+
+      <p class="in-view-target mt-12 text-center text-sm" style="color: var(--dark-muted);">
+        Want ongoing support? Add monthly maintenance for <span style="color: var(--bg-deep); font-weight: 500;">£50/month</span>. Cancel any time.
+      </p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="grain relative py-24 lg:py-32 px-6 lg:px-12 hairline-dark" style="background: var(--bg-deep);">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 relative">
+
+        <div class="lg:col-span-7 in-view-target">
+          <div class="eyebrow text-brand-mint mb-5">003 / About</div>
+          <h2 class="h-section text-brand-ivory">Built in Llanelli.<br>Built for South Wales.</h2>
+
+          <div class="mt-10 space-y-6 max-w-2xl" style="color: var(--ivory-muted); font-size: 1.0625rem; line-height: 1.8;">
+            <p>I'm Zak Esposito. I run Esposito Digital out of Llanelli, building websites and AI automation for local businesses across South Wales.</p>
+            <p>I studied Computer Science and spent my placement year as a software engineer at Renishaw, working on production systems that had to work, every day, without fail. That standard is what I bring to every project.</p>
+            <p>I started this studio because too many local businesses are stuck with cheap, broken websites or paying London agency rates for work that should cost a fraction. I sit in the middle.</p>
+          </div>
+
+          <blockquote class="mt-10 pl-6 max-w-2xl" style="border-left: 2px solid var(--accent);">
+            <p class="font-display font-medium tracking-tight text-brand-ivory" style="font-size: clamp(1.25rem, 2.2vw, 1.75rem); line-height: 1.4;">
+              Proper engineering, fair pricing, and a real person you can actually speak to.
+            </p>
+          </blockquote>
+
+          <div class="mt-12 eyebrow flex flex-wrap gap-x-4 gap-y-2 items-center" style="color: var(--ivory-faint);">
+            <span>Llanelli, South Wales</span><span aria-hidden="true">·</span>
+            <span>Computer Science</span><span aria-hidden="true">·</span>
+            <span>ex-Renishaw</span>
+          </div>
+        </div>
+
+        <div class="hidden lg:flex lg:col-span-5 items-start justify-end overflow-hidden">
+          <div class="ed-sticky ed-decoration" aria-hidden="true">ED</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-atmos relative py-24 lg:py-32 px-6 lg:px-12">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-9 gap-12 lg:gap-16">
+
+        <!-- Left: copy -->
+        <div class="lg:col-span-4 in-view-target">
+          <div class="eyebrow mb-5" style="color: var(--accent);">004 / Get in touch</div>
+          <h2 class="h-section" style="color: var(--bg-deep);">Tell me about your business.</h2>
+          <p class="body-lg mt-6 max-w-md" style="color: var(--dark-muted);">
+            Drop me a line and I'll get back to you within one working day. No pitch, no hard sell. If I'm not the right fit, I'll tell you.
+          </p>
+
+          <div class="mt-12 hairline-light pt-8 space-y-6">
+            <div>
+              <div class="eyebrow" style="color: var(--dark-faint);">Email</div>
+              <a href="mailto:zak@espositodigital.co.uk" class="mt-1.5 inline-block font-display font-medium text-lg tracking-tight" style="color: var(--bg-deep); border-bottom: 1px solid transparent;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='transparent'">zak@espositodigital.co.uk</a>
+            </div>
+            <div>
+              <div class="eyebrow" style="color: var(--dark-faint);">Based in</div>
+              <p class="mt-1.5 font-display font-medium text-lg tracking-tight" style="color: var(--bg-deep);">Llanelli, South Wales</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: form -->
+        <div class="lg:col-span-5 in-view-target">
+          <form id="contact-form" action="https://formsubmit.co/zak@espositodigital.co.uk" method="POST" class="space-y-7 bg-white/40 backdrop-blur-sm rounded-2xl p-8 lg:p-10" style="box-shadow: var(--shadow-card); border: 1px solid rgba(16,185,129,0.10);">
+            <input type="hidden" name="_subject" value="New enquiry from espositodigital.co.uk">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="/?thanks=1#contact">
+            <div class="honey"><label>Don't fill this in<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+
+            <div class="field">
+              <label for="f-name">Name</label>
+              <input id="f-name" type="text" name="name" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" type="email" name="email" required autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="f-business">Business or website <span style="text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--dark-faint);">— optional</span></label>
+              <input id="f-business" type="text" name="business" placeholder="e.g. yourbusiness.co.uk">
+            </div>
+            <div class="field">
+              <label for="f-message">What are you looking for?</label>
+              <textarea id="f-message" name="message" rows="5" required placeholder="A new website? AI automation? Not sure yet, just want a chat?"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary w-full sm:w-auto">
+              Send message
+              <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </button>
+          </form>
+
+          <div id="thanks-msg" class="hidden mt-6 p-6 rounded-2xl" style="background: rgba(16,185,129,0.10); border: 1px solid var(--accent);">
+            <p class="font-display font-medium text-lg" style="color: var(--bg-deep);">Thanks. I'll be in touch within one working day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="grain relative pt-16 pb-10 px-6 lg:px-12 hairline-dark" style="background: var(--bg-deep);">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+        <div class="max-w-sm">
+          <a href="#top" class="flex items-center gap-2.5 mb-4">
+            <span class="w-2.5 h-2.5 bg-brand-accent rounded-[3px]"></span>
+            <span class="font-display font-semibold text-base tracking-tight text-brand-ivory">Esposito Digital</span>
+          </a>
+          <p class="text-sm" style="color: var(--ivory-muted);">Websites and AI automation for local businesses in South Wales.</p>
+        </div>
+        <div class="flex flex-col items-start md:items-end gap-3">
+          <div class="flex gap-7">
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#pricing"  class="nav-link">Pricing</a>
+            <a href="#about"    class="nav-link">About</a>
+            <a href="#contact"  class="nav-link">Contact</a>
+          </div>
+          <a href="mailto:zak@espositodigital.co.uk" class="text-sm" style="color: var(--ivory-muted);">zak@espositodigital.co.uk</a>
+        </div>
+      </div>
+      <div class="mt-12 pt-6 hairline-dark flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs" style="color: var(--ivory-faint);">
+        <span>© 2026 Esposito Digital · Llanelli, South Wales</span>
+        <span>Built by hand, hosted with care.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll state
+    (function () {
+      const nav = document.querySelector('.nav');
+      const onScroll = () => {
+        if (window.scrollY > 60) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    // Mobile menu
+    (function () {
+      const btn = document.getElementById('menu-btn');
+      const close = document.getElementById('menu-close');
+      const overlay = document.getElementById('menu-overlay');
+      const open = () => { overlay.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; };
+      const shut = () => { overlay.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; };
+      btn.addEventListener('click', open);
+      close.addEventListener('click', shut);
+      overlay.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', shut));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') shut(); });
+    })();
+
+    // Scroll-reveal intentionally omitted — content is always visible.
+
+    // Form thank-you state
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('thanks') === '1') {
+        const form = document.getElementById('contact-form');
+        const msg = document.getElementById('thanks-msg');
+        if (form && msg) { form.classList.add('hidden'); msg.classList.remove('hidden'); }
+      }
+    })();
+  </script>
+</body>
+</html>
