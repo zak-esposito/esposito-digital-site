@@ -672,6 +672,7 @@
               Send message
               <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </button>
+            <p id="form-error" class="hidden text-sm" style="color: #b91c1c;">Sorry, something went wrong. Please email <a href="mailto:zak@espositodigital.co.uk" style="text-decoration: underline;">zak@espositodigital.co.uk</a> directly.</p>
           </form>
 
           <div id="thanks-msg" class="hidden mt-6 p-6 rounded-2xl" style="background: rgba(16,185,129,0.10); border: 1px solid var(--accent);">
@@ -737,14 +738,46 @@
 
     // Scroll-reveal intentionally omitted — content is always visible.
 
-    // Form thank-you state
+    // Contact form: AJAX submission to FormSubmit, plus ?thanks=1 swap on return
     (function () {
+      const form = document.getElementById('contact-form');
+      const msg = document.getElementById('thanks-msg');
+      if (!form || !msg) return;
+
       const params = new URLSearchParams(window.location.search);
       if (params.get('thanks') === '1') {
-        const form = document.getElementById('contact-form');
-        const msg = document.getElementById('thanks-msg');
-        if (form && msg) { form.classList.add('hidden'); msg.classList.remove('hidden'); }
+        form.classList.add('hidden');
+        msg.classList.remove('hidden');
+        return;
       }
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const errEl = document.getElementById('form-error');
+      const originalBtnHTML = submitBtn ? submitBtn.innerHTML : '';
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (errEl) errEl.classList.add('hidden');
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = 'Sending…'; }
+
+        const data = Object.fromEntries(new FormData(form).entries());
+
+        try {
+          const res = await fetch('https://formsubmit.co/ajax/zak@espositodigital.co.uk', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const json = await res.json().catch(() => ({}));
+          if (!res.ok || (json.success !== 'true' && json.success !== true)) {
+            throw new Error(json.message || 'Submission failed');
+          }
+          window.location.href = '/?thanks=1#contact';
+        } catch (err) {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnHTML; }
+          if (errEl) errEl.classList.remove('hidden');
+        }
+      });
     })();
   </script>
 </body>
